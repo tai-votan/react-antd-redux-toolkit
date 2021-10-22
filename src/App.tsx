@@ -1,57 +1,56 @@
-import React from 'react';
-import logo from './logo.svg';
-import { Counter } from './features/counter/Counter';
-import './App.css';
+import React, { useEffect } from "react";
+import "./App.less";
+import { Form, Input, Button, Row, Col } from "antd";
+import { useAppDispatch } from "redux/hooks";
+import { userLogin } from "redux/userSlice";
+import { TUserLogin } from "models/user";
 
 function App() {
+  const dispatch = useAppDispatch();
+
+  // useEffect(() => {
+  //   dispatch(
+  //     userLogin({
+  //       email: "taivo2210@mailinator.com",
+  //       password: "taivo2210@mailinator.com",
+  //     })
+  //   );
+  // }, [dispatch]);
+
+  const onFinish = (values: TUserLogin) => {
+    dispatch(userLogin(values));
+  };
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <Counter />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <span>
-          <span>Learn </span>
-          <a
-            className="App-link"
-            href="https://reactjs.org/"
-            target="_blank"
-            rel="noopener noreferrer"
+    <Row align={"middle"} justify={"center"} style={{ height: "100vh" }}>
+      <Col xs={6}>
+        <Form
+          name="basic"
+          labelCol={{ span: 8 }}
+          wrapperCol={{ span: 16 }}
+          onFinish={onFinish}
+          autoComplete="off"
+        >
+          <Form.Item
+            name="email"
+            rules={[{ required: true, message: "Please input your username!" }]}
           >
-            React
-          </a>
-          <span>, </span>
-          <a
-            className="App-link"
-            href="https://redux.js.org/"
-            target="_blank"
-            rel="noopener noreferrer"
+            <Input />
+          </Form.Item>
+          <Form.Item
+            name="password"
+            rules={[{ required: true, message: "Please input your password!" }]}
           >
-            Redux
-          </a>
-          <span>, </span>
-          <a
-            className="App-link"
-            href="https://redux-toolkit.js.org/"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Redux Toolkit
-          </a>
-          ,<span> and </span>
-          <a
-            className="App-link"
-            href="https://react-redux.js.org/"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            React Redux
-          </a>
-        </span>
-      </header>
-    </div>
+            <Input.Password />
+          </Form.Item>
+          <Form.Item>
+            <Button type="primary" htmlType="submit">
+              Submit
+            </Button>
+          </Form.Item>
+        </Form>
+      </Col>
+    </Row>
   );
 }
 
